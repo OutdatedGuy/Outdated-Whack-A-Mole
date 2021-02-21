@@ -23,73 +23,65 @@ function setup() {
 	end = -1;
 	len = 1;
 	hits = 0;
-  pickLocation();
-  
-	setInterval(getScore, 500);
+	pickLocation();
+
+	setInterval(getScore, 1000);
 
 	times = 1;
 	onlyOne = 0;
 	chances = 6;
 	currentTime = 0;
 	convertSeconds(timeLeft);
-  timer = 0;
-  
+	timer = 0;
+
 	record1.length = 0;
-  record2.length = 0;
-  
+	record2.length = 0;
+
 	submit = 0;
 	startScreen();
 }
 
 function bubbleSort1() {
-	for (i = 0; i < 30; i++) {
-		for (j = record1.length - 1; j > 0; j--) {
+	for (i = 0; i < 30; i++)
+		for (j = record1.length - 1; j > 0; j--)
 			if (record1[j].score > record1[j - 1].score) {
 				var tempS = record1[j];
 				record1[j] = record1[j - 1];
 				record1[j - 1] = tempS;
 			}
-		}
-	}
 }
 
 function bubbleSort2() {
-	for (i = 0; i < 30; i++) {
-		for (j = record2.length - 1; j > 0; j--) {
+	for (i = 0; i < 30; i++)
+		for (j = record2.length - 1; j > 0; j--)
 			if (record2[j].score > record2[j - 1].score) {
 				var tempS = record2[j];
 				record2[j] = record2[j - 1];
 				record2[j - 1] = tempS;
 			}
-		}
-	}
 }
 
 async function getScore() {
 	var data1 = {
-		level: -1
+		level: -1,
 	};
 	const none = {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/json'
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(data1)
+		body: JSON.stringify(data1),
 	};
-	var response = await fetch('/getTheScore', none);
+	var response = await fetch("/getTheScore", none);
 	var SCORE = await response.json();
 	record1 = SCORE.lvl1;
 	record2 = SCORE.lvl2;
 }
 
 function draw() {
-	if (timer % 60 == 0 && end == 0) {
-		timeIt();
-	}
+	if (timer % 60 == 0 && end == 0) timeIt();
 	timer++;
-	if (end == 0) {
-		gameScreen();
-	}
+	if (end == 0) gameScreen();
 }
 
 function startScreen() {
@@ -101,12 +93,12 @@ function startScreen() {
 	stroke(0);
 	rectMode(CENTER);
 	rect(width / 4, height / 2, 270, 70);
-	rect(3 * width / 4, height / 2, 270, 70);
+	rect((3 * width) / 4, height / 2, 270, 70);
 	textAlign(CENTER);
 	fill(0);
 	textSize(30);
 	text("Slow Mode", width / 4, height / 2 + 10);
-	text("Fast Mode", 3 * width / 4, height / 2 + 10);
+	text("Fast Mode", (3 * width) / 4, height / 2 + 10);
 }
 
 function instruction() {
@@ -153,22 +145,15 @@ function timeIt() {
 function gameScreen() {
 	background(60);
 	textSize(40);
-	if (timeLeft - currentTime < 11) {
-		fill(255, 0, 0);
-	} else {
-		fill(255);
-	}
-	text(nf(mins, 2) + ':' + nf(sec, 2), width - 70, 60);
+	if (timeLeft - currentTime < 11) fill(255, 0, 0);
+	else fill(255);
+	text(nf(mins, 2) + ":" + nf(sec, 2), width - 70, 60);
 	drawMachine();
-	if (times <= 0 || times >= 30) {
-		len = -1 * len;
-	}
-	if (times <= 0) {
-		pickLocation();
-	}
+	if (times <= 0 || times >= 30) len = -1 * len;
+	if (times <= 0) pickLocation();
 	times += len;
-  diglet();
-  marr=hits;
+	diglet();
+	marr = hits;
 }
 
 function drawMachine() {
@@ -179,14 +164,13 @@ function drawMachine() {
 	rect(width / 2, 135, 780, 80);
 	fill(0, 255, 0);
 	rect(width / 2, height / 2 + 50, 800, 330);
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < 3; i++)
 		for (j = 0; j < 2; j++) {
 			fill(255, 0, 0);
 			ellipse(150 + 300 * i, 275 + 150 * j, 100, 25);
 			fill(0);
 			ellipse(150 + 300 * i, 275 + 150 * j, 90, 15);
 		}
-	}
 	textAlign(CENTER);
 	textSize(70);
 	fill(255, 0, 255);
@@ -201,7 +185,7 @@ function drawMachine() {
 function diglet() {
 	fill(165, 42, 42);
 	if (times < 17) {
-		arc(x, y, 40 + 5 * times / 2, 10 * times, PI, 0, OPEN);
+		arc(x, y, 40 + (5 * times) / 2, 10 * times, PI, 0, OPEN);
 		if (times > 6) {
 			fill(0);
 			ellipse(x - 15, y - 5 * (times - 6), 10, 20);
@@ -230,27 +214,58 @@ function pickLocation() {
 function mousePressed() {
 	var hor = width / 4;
 	var ver = height / 2;
-	if (end > 0 && mouseX > 2 * hor + 10 && mouseX < 2 * hor + 110 && mouseY > ver + 45 && mouseY < ver + 75) {
+	if (
+		end > 0 &&
+		mouseX > 2 * hor + 10 &&
+		mouseX < 2 * hor + 110 &&
+		mouseY > ver + 45 &&
+		mouseY < ver + 75
+	) {
 		removeElements();
 		setup();
 	}
-	if ((end == 1 || end == 3) && mouseX > width / 2 - 70 && mouseX < width / 2 + 70 && mouseY > ver + 85 && mouseY < ver + 115) {
+	if (
+		(end == 1 || end == 3) &&
+		mouseX > width / 2 - 70 &&
+		mouseX < width / 2 + 70 &&
+		mouseY > ver + 85 &&
+		mouseY < ver + 115
+	) {
 		highscoreScreen();
 	}
-	if ((end == 4 || end == 3) && mouseX > 2 * hor - 110 && mouseX < 2 * hor - 10 && mouseY > ver + 45 && mouseY < ver + 75) {
+	if (
+		(end == 4 || end == 3) &&
+		mouseX > 2 * hor - 110 &&
+		mouseX < 2 * hor - 10 &&
+		mouseY > ver + 45 &&
+		mouseY < ver + 75
+	) {
 		end = 1;
 		endScreen();
 	}
-	if (end == 2 && mouseX > 2 * hor - 110 && mouseX < 2 * hor - 10 && mouseY > ver + 45 && mouseY < ver + 75) {
+	if (
+		end == 2 &&
+		mouseX > 2 * hor - 110 &&
+		mouseX < 2 * hor - 10 &&
+		mouseY > ver + 45 &&
+		mouseY < ver + 75
+	) {
 		removeElements();
 		data = {
 			level: level,
 			name: inputName.value(),
-			score: marr
+			score: marr,
 		};
 		nameSubmitted();
 	}
-	if (end == 1 && (submit == 0 || submit == 2) && mouseX > 2 * hor - 110 && mouseX < 2 * hor - 10 && mouseY > ver + 45 && mouseY < ver + 75) {
+	if (
+		end == 1 &&
+		(submit == 0 || submit == 2) &&
+		mouseX > 2 * hor - 110 &&
+		mouseX < 2 * hor - 10 &&
+		mouseY > ver + 45 &&
+		mouseY < ver + 75
+	) {
 		if (submit == 0) {
 			submitScreen();
 		} else if (submit == 2) {
@@ -261,33 +276,46 @@ function mousePressed() {
 		end = 0;
 	}
 	if (end == -1) {
-		if (mouseX > hor - 135 && mouseX < hor + 135 && mouseY > ver - 35 && mouseY < ver + 35) {
+		if (
+			mouseX > hor - 135 &&
+			mouseX < hor + 135 &&
+			mouseY > ver - 35 &&
+			mouseY < ver + 35
+		) {
 			len = 1;
 			level = 1;
 			end = -0.5;
 			instruction();
-		} else if (mouseX > 3 * hor - 135 && mouseX < 3 * hor + 135 && mouseY > ver - 35 && mouseY < ver + 35) {
+		} else if (
+			mouseX > 3 * hor - 135 &&
+			mouseX < 3 * hor + 135 &&
+			mouseY > ver - 35 &&
+			mouseY < ver + 35
+		) {
 			len = 2;
 			level = 2;
 			end = -0.5;
 			instruction();
 		}
 	}
-	if (end == 0 && mouseX > x - 26 && mouseX < x + 26 && mouseY > y - 80 && mouseY < y - 60 && onlyOne == 0 && times > 10) {
+	if (
+		end == 0 &&
+		mouseX > x - 26 &&
+		mouseX < x + 26 &&
+		mouseY > y - 80 &&
+		mouseY < y - 60 &&
+		onlyOne == 0 &&
+		times > 10
+	) {
 		for (i = -27, k = 1, temp = 1; i < 26; i++, k += temp) {
-			for (j = -60; j > -60 - 6.25 * log(k); j--) {
+			for (j = -60; j > -60 - 6.25 * log(k); j--)
 				if (mouseX == x + i && mouseY == y + j) {
 					hits++;
 					onlyOne++;
 					break;
 				}
-			}
-			if (onlyOne == 1) {
-				break;
-			}
-			if (k > 26) {
-				temp = -temp;
-			}
+			if (onlyOne == 1) break;
+			if (k > 26) temp = -temp;
 		}
 	} else if (end == 0 && onlyOne != 1) {
 		chances--;
@@ -300,8 +328,8 @@ function mousePressed() {
 
 function endScreen() {
 	bubbleSort1();
-  bubbleSort2();
-  
+	bubbleSort2();
+
 	background(60);
 	if (level == 1) {
 		if (hits > record1[0].score) {
@@ -316,12 +344,15 @@ function endScreen() {
 			noStroke();
 			fill(0, 255, 255);
 			textSize(60);
-			text(record1[0].name + ": " + record1[0].score, width / 2, 6 * blocks);
+			text(
+				record1[0].name + ": " + record1[0].score,
+				width / 2,
+				6 * blocks
+			);
 		}
 	} else if (level == 2) {
-		if (hits > record2[0].score) {
-			newHigh();
-		} else {
+		if (hits > record2[0].score) newHigh();
+		else {
 			stroke(255, 0, 0);
 			strokeWeight(3);
 			fill(255, 150, 200);
@@ -331,7 +362,11 @@ function endScreen() {
 			noStroke();
 			fill(0, 255, 255);
 			textSize(60);
-			text(record2[0].name + ": " + record2[0].score, width / 2, 6 * blocks);
+			text(
+				record2[0].name + ": " + record2[0].score,
+				width / 2,
+				6 * blocks
+			);
 		}
 	}
 	stroke(255, 0, 0);
@@ -365,11 +400,8 @@ function resetButton() {
 	}
 	fill(0);
 	text("Restart", width / 2 + 60, height / 2 + 67);
-	if (end == 4 || end == 3) {
-		text("Back", width / 2 - 60, height / 2 + 67);
-	} else {
-		text("Submit", width / 2 - 60, height / 2 + 67);
-	}
+	if (end == 4 || end == 3) text("Back", width / 2 - 60, height / 2 + 67);
+	else text("Submit", width / 2 - 60, height / 2 + 67);
 }
 
 function newHigh() {
@@ -399,15 +431,59 @@ function highscoreScreen() {
 	textSize(20);
 	if (level == 1) {
 		for (i = 0; i < 10; i++) {
-			text((i + 1) + ". " + record1[i].name + ": " + record1[i].score, width / 6, (i + 5) * (blocks + 4));
-			text((i + 11) + ". " + record1[i+10].name + ": " + record1[i+10].score, width / 2, (i + 5) * (blocks + 4));
-			text((i + 21) + ". " + record1[i+20].name + ": " + record1[i+20].score, 5 * (width / 6), (i + 5) * (blocks + 4));
+			text(
+				i + 1 + ". " + record1[i].name + ": " + record1[i].score,
+				width / 6,
+				(i + 5) * (blocks + 4)
+			);
+			text(
+				i +
+					11 +
+					". " +
+					record1[i + 10].name +
+					": " +
+					record1[i + 10].score,
+				width / 2,
+				(i + 5) * (blocks + 4)
+			);
+			text(
+				i +
+					21 +
+					". " +
+					record1[i + 20].name +
+					": " +
+					record1[i + 20].score,
+				5 * (width / 6),
+				(i + 5) * (blocks + 4)
+			);
 		}
 	} else if (level == 2) {
 		for (i = 0; i < 10; i++) {
-			text((i + 1) + ". " + record2[i].name + ": " + record2[i].score, width / 6, (i + 5) * (blocks + 4));
-			text((i + 11) + ". " + record2[i+10].name + ": " + record2[i+10].score, width / 2, (i + 5) * (blocks + 4));
-			text((i + 21) + ". " + record2[i+20].name + ": " + record2[i+20].score, 5 * (width / 6), (i + 5) * (blocks + 4));
+			text(
+				i + 1 + ". " + record2[i].name + ": " + record2[i].score,
+				width / 6,
+				(i + 5) * (blocks + 4)
+			);
+			text(
+				i +
+					11 +
+					". " +
+					record2[i + 10].name +
+					": " +
+					record2[i + 10].score,
+				width / 2,
+				(i + 5) * (blocks + 4)
+			);
+			text(
+				i +
+					21 +
+					". " +
+					record2[i + 20].name +
+					": " +
+					record2[i + 20].score,
+				5 * (width / 6),
+				(i + 5) * (blocks + 4)
+			);
 		}
 	}
 	if (submit != 1) {
@@ -434,14 +510,14 @@ function submitScreen() {
 
 function nameSubmitted() {
 	const options = {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/json'
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(data)
+		body: JSON.stringify(data),
 	};
-  fetch('/api', options);
-  
+	fetch("/api", options);
+
 	end = 3;
 	submit = 1;
 	saveResult();
