@@ -307,19 +307,11 @@ function mousePressed() {
 		onlyOne == 0 &&
 		times > 10
 	) {
-		for (i = -27, k = 1, temp = 1; i < 26; i++, k += temp) {
-			for (j = -60; j > -60 - 6.25 * log(k); j--)
-				if (mouseX == x + i && mouseY == y + j) {
-					hits++;
-					onlyOne++;
-					break;
-				}
-			if (onlyOne == 1) break;
-			if (k > 26) temp = -temp;
-		}
+		hits++;
+		onlyOne++;
 	} else if (end == 0 && onlyOne != 1) {
 		chances--;
-		if (chances == 0) {
+		if (chances <= 0) {
 			end = 1;
 			endScreen();
 		}
