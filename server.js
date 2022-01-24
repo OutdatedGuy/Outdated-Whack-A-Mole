@@ -51,7 +51,7 @@ app.post('/getTheScore', (request, response) => {
 app.post('/api', (request, response) => {
     console.log("I Got A Request To Add Data!!");
     var data = {
-        name: request.body.name,
+        name: request.body.name.substr(0, 15),
         score: request.body.score
     };
 
