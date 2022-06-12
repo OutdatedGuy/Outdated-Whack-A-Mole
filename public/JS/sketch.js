@@ -13,7 +13,7 @@ var inputName;
 var record1 = [];
 var record2 = [];
 var submit = 0;
-var timeLeft = 240;
+var timeLeft = 90;
 var currentTime;
 var sec, mins;
 var timer;
