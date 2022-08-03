@@ -430,21 +430,21 @@ function highscoreScreen() {
 			);
 			text(
 				i +
-					11 +
-					". " +
-					record1[i + 10].name +
-					": " +
-					record1[i + 10].score,
+				11 +
+				". " +
+				record1[i + 10].name +
+				": " +
+				record1[i + 10].score,
 				width / 2,
 				(i + 5) * (blocks + 4)
 			);
 			text(
 				i +
-					21 +
-					". " +
-					record1[i + 20].name +
-					": " +
-					record1[i + 20].score,
+				21 +
+				". " +
+				record1[i + 20].name +
+				": " +
+				record1[i + 20].score,
 				5 * (width / 6),
 				(i + 5) * (blocks + 4)
 			);
@@ -458,21 +458,21 @@ function highscoreScreen() {
 			);
 			text(
 				i +
-					11 +
-					". " +
-					record2[i + 10].name +
-					": " +
-					record2[i + 10].score,
+				11 +
+				". " +
+				record2[i + 10].name +
+				": " +
+				record2[i + 10].score,
 				width / 2,
 				(i + 5) * (blocks + 4)
 			);
 			text(
 				i +
-					21 +
-					". " +
-					record2[i + 20].name +
-					": " +
-					record2[i + 20].score,
+				21 +
+				". " +
+				record2[i + 20].name +
+				": " +
+				record2[i + 20].score,
 				5 * (width / 6),
 				(i + 5) * (blocks + 4)
 			);

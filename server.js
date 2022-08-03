@@ -22,29 +22,29 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 ref = database.ref('Outdated Game/Whack-A-Mole Game/Level 1');
-ref.on('value',gotData1);
+ref.on('value', gotData1);
 ref = database.ref('Outdated Game/Whack-A-Mole Game/Level 2');
-ref.on('value',gotData2);
+ref.on('value', gotData2);
 
 const port = process.env.PORT || 1412;
 app.listen(port, () => console.log(`Starting server at ${port}`));
 
 app.use(express.static('public'));
-app.use(express.json({limit: '200b'}));
+app.use(express.json({ limit: '200b' }));
 
 app.post('/getTheScore', (request, response) => {
     record1.length = 0;
     record2.length = 0;
     // console.log("I Got A Request To Send Data!!");
     ref = database.ref('Outdated Game/Whack-A-Mole Game/Level 1');
-    ref.on('value',gotData1);
-    
+    ref.on('value', gotData1);
+
     ref = database.ref('Outdated Game/Whack-A-Mole Game/Level 2');
-    ref.on('value',gotData2);
-    
+    ref.on('value', gotData2);
+
     response.json({
         lvl1: record1,
-        lvl2: record2 
+        lvl2: record2
     });
 });
 
@@ -70,9 +70,9 @@ app.post('/api', (request, response) => {
 });
 
 function gotData1(data) {
-	var scores = data.val();
-	var keys = Object.keys(scores);
-	for (i = 0; i < keys.length; i++) {
+    var scores = data.val();
+    var keys = Object.keys(scores);
+    for (i = 0; i < keys.length; i++) {
         var k = keys[i];
         record1[i] = {
             name: scores[k].name,
@@ -82,14 +82,14 @@ function gotData1(data) {
 }
 
 function gotData2(data) {
-	var scores = data.val();
-	var keys = Object.keys(scores);
-	for (i = 0; i < keys.length; i++) {
-		var k = keys[i];
-        record2[i]={
+    var scores = data.val();
+    var keys = Object.keys(scores);
+    for (i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        record2[i] = {
             name: scores[k].name,
             score: scores[k].score
         }
-	}
+    }
 }
 
