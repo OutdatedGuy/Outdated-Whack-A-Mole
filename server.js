@@ -1,5 +1,4 @@
 const express = require('express');
-const { response, request } = require('express');
 const app = express();
 require('dotenv').config();
 const firebase = require('firebase');
@@ -8,16 +7,15 @@ var ref;
 record1 = [];
 record2 = [];
 
-
 var firebaseConfig = {
     apiKey: process.env.API_KEY,
-    authDomain: "outdated-projects.firebaseapp.com",
-    databaseURL: "https://outdated-projects.firebaseio.com",
-    projectId: "outdated-projects",
-    storageBucket: "outdated-projects.appspot.com",
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
     messagingSenderId: process.env.MESSAGING_SENDER_ID,
     appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID
+    measurementId: process.env.MEASUREMENT_ID,
 };
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
@@ -32,7 +30,7 @@ app.listen(port, () => console.log(`Starting server at ${port}`));
 app.use(express.static('public'));
 app.use(express.json({ limit: '200b' }));
 
-app.post('/getTheScore', (request, response) => {
+app.post('/getTheScore', (_req, res) => {
     record1.length = 0;
     record2.length = 0;
     // console.log("I Got A Request To Send Data!!");
@@ -42,7 +40,7 @@ app.post('/getTheScore', (request, response) => {
     ref = database.ref('Outdated Game/Whack-A-Mole Game/Level 2');
     ref.on('value', gotData2);
 
-    response.json({
+    res.json({
         lvl1: record1,
         lvl2: record2
     });
@@ -92,4 +90,3 @@ function gotData2(data) {
         }
     }
 }
-
