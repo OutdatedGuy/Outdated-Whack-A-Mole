@@ -10,9 +10,9 @@
 	"author": "OutdatedGuy",
 	"license": "BSD 3-Clause License",
 	"dependencies": {
-		"dotenv": "^16.4.1",
-		"express": "^4.19.2",
-		"firebase": "^11.1.0"
+		"dotenv": "^17.2.3",
+		"express": "^5.1.0",
+		"firebase": "^12.3.0"
 	},
 	"repository": {
 		"type": "git",
